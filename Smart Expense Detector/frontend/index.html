@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LeakSense — Smart Expense Leak Detector</title>
+  <meta name="description" content="AI-powered expense leak detector. Upload your expenses, run Graph + CSP + A* analysis, and find hidden spending patterns instantly."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Background mesh -->
+<div class="mesh">
+  <div class="mesh-blob mb1"></div>
+  <div class="mesh-blob mb2"></div>
+  <div class="mesh-blob mb3"></div>
+</div>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loader-ring"></div>
+  <div class="loading-text">Detecting leaks…</div>
+  <div class="loading-sub">running expense analysis engine</div>
+  <div class="loading-stage" id="loadingStage"></div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">
+  <div class="toast-dot"></div>
+  <span id="toastMsg">Row added.</span>
+</div>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    LeakSense
+  </div>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#analyze">Analyze</a>
+    <a href="#results">Results</a>
+    <a href="http://localhost:8000/docs" target="_blank" rel="noopener">API Docs</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px;">
+    <div class="api-status">
+      <div class="api-dot" id="apiDot"></div>
+      <span id="apiTxt">checking…</span>
+    </div>
+    <button class="nav-cta" onclick="scrollToAnalyze()">Start Free</button>
+  </div>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero">
+  <div class="hero-eyebrow">💧 Graph · CSP · A* powered intelligence</div>
+  <h1 class="hero-title">Find where your<br/><em>money leaks</em></h1>
+  <p class="hero-sub">Upload your expenses or enter them manually. Our backend engine runs Graph traversals, CSP constraint solving, and A* anomaly prioritization — then surfaces your top leaks instantly.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="scrollToAnalyze()">Detect My Leaks</button>
+    <button class="btn-ghost" onclick="loadDemo()">Try Demo Data</button>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</section>
+
+<!-- ══════════════ STATS BAND ══════════════ -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">AI Algorithms (Graph · CSP · A*)</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Anomaly types detected</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">&lt;1s</div>
+      <div class="stat-label">Full pipeline analysis time</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Local — your data stays private</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ HOW IT WORKS ══════════════ -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-tag">// Process</div>
+    <h2 class="section-title">Three steps to <em>financial clarity</em></h2>
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-title">Input Expenses</div>
+        <div class="how-desc">Paste transactions manually or upload a CSV. We accept bank exports, app exports, or hand-typed lists. Drag-and-drop supported.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">02</div>
+        <div class="how-title">Graph + CSP + A* Engine</div>
+        <div class="how-desc">
+          <strong style="color:var(--accent)">Graph</strong> (BFS/DFS) maps spending topology.
+          <strong style="color:var(--warn)">CSP</strong> checks every budget constraint via backtracking.
+          <strong style="color:var(--accent3)">A*</strong> ranks leaks by f(n)=g(n)+h(n) criticality.
+        </div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-title">Actionable Report</div>
+        <div class="how-desc">Receive a prioritized list of leaks with severity scores, ₹ amounts, and specific saving recommendations — ranked by the A* algorithm.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-num">04</div>
+        <div class="how-title">Take Action</div>
+        <div class="how-desc">Each alert links to the exact vendor or category causing the leak. Fix the top-ranked issues first for maximum financial recovery.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ ANALYZE SECTION ══════════════ -->
+<section class="section" id="analyze">
+  <div class="container">
+    <div class="section-tag">// Input</div>
+    <h2 class="section-title">Enter your <em>expenses</em></h2>
+
+    <!-- Upload zone -->
+    <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+      <span class="upload-icon">📄</span>
+      <div class="upload-title">Drop a CSV file here</div>
+      <div class="upload-sub">or click to browse — columns: Description, Amount, Category, Date</div>
+      <label class="upload-btn" for="fileInput">Choose File</label>
+      <input type="file" id="fileInput" accept=".csv" onchange="handleCSV(this)"/>
+    </div>
+
+    <div style="text-align:center;color:var(--muted);padding:20px 0;font-size:12px;letter-spacing:.1em">— OR ENTER MANUALLY —</div>
+
+    <!-- Manual entry table -->
+    <div class="expense-table-wrap">
+      <div class="expense-table-head">
+        <span>Description / Vendor</span>
+        <span>Amount (₹)</span>
+        <span class="col-cat">Category</span>
+        <span class="col-date">Date</span>
+        <span>Del</span>
+      </div>
+      <div id="expenseRows"></div>
+      <button class="add-row-btn" onclick="addRow()">+ Add Expense</button>
+    </div>
+
+    <!-- Error banner -->
+    <div class="error-banner" id="errorBanner"></div>
+
+    <div class="analyze-wrap">
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeExpenses()">
+        🔍 &nbsp; Detect Expense Leaks
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ RESULTS ══════════════ -->
+<section class="section" id="results">
+  <div class="container" id="resultsContainer"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <p>LeakSense — Smart Expense Leak Detector &nbsp;·&nbsp; Built with <span>♥</span> using FastAPI + Graph + CSP + A*</p>
+  <p style="margin-top:8px;font-size:11px">Backend: <a href="http://localhost:8000/docs" target="_blank" style="color:var(--accent);text-decoration:none">localhost:8000/docs</a> &nbsp;·&nbsp; Your data stays local. Privacy first.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

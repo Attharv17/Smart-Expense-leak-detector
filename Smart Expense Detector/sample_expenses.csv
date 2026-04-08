@@ -1,0 +1,31 @@
+id,date,amount,category,vendor,description
+1,2026-03-01,250,Food,Zomato,Lunch order
+2,2026-03-01,1200,Transport,Uber,Office commute
+3,2026-03-02,5000,Shopping,Amazon,Headphones
+4,2026-03-03,300,Food,Swiggy,Dinner
+5,2026-03-04,15000,Rent,Landlord,Monthly rent
+6,2026-03-05,700,Entertainment,Netflix,Subscription
+7,2026-03-06,450,Food,Zomato,Snacks
+8,2026-03-07,2000,Shopping,Flipkart,Clothes
+9,2026-03-08,800,Transport,Ola,Travel
+10,2026-03-09,1200,Food,Restaurant,Family dinner
+11,2026-03-10,3000,Shopping,Amazon,Shoes
+12,2026-03-11,600,Entertainment,BookMyShow,Movie tickets
+13,2026-03-12,400,Food,Swiggy,Lunch
+14,2026-03-13,2500,Utilities,Electricity,Monthly bill
+15,2026-03-14,1800,Food,Zomato,Party order
+16,2026-03-15,900,Transport,Uber,Airport ride
+17,2026-03-16,2200,Shopping,Myntra,Jacket
+18,2026-03-17,350,Food,Local Cafe,Coffee
+19,2026-03-18,500,Entertainment,Spotify,Subscription
+20,2026-03-19,2700,Food,Restaurant,Friends outing
+21,2026-03-20,1000,Transport,Ola,Daily commute
+22,2026-03-21,4500,Shopping,Amazon,Smartwatch
+23,2026-03-22,650,Food,Swiggy,Dinner
+24,2026-03-23,1200,Utilities,Internet,WiFi bill
+25,2026-03-24,300,Food,Zomato,Snacks
+26,2026-03-25,5000,Shopping,Flipkart,Tablet
+27,2026-03-26,800,Entertainment,GameStore,Game purchase
+28,2026-03-27,1500,Food,Restaurant,Lunch outing
+29,2026-03-28,2000,Transport,Uber,Trip
+30,2026-03-29,3200,Food,Zomato,Party food
